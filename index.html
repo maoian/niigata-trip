@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>新潟4天3夜｜日系極簡旅遊小工具</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2j+FWyNXQGEblhGVMjBHAtK6EdhO8VcQ/M+Bw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Custom Tailwind Colors (日系無印風) */
+        :root {
+            --color-primary-bg: #F8F4E8; /* 米白背景 */
+            --color-primary-text: #333333; /* 深灰文字 */
+            --color-accent-green: #7D9D9C; /* 抹茶綠點綴 */
+            --color-accent-brown: #C7B198; /* 木質棕點綴 */
+            --color-card-bg: #FFFFFF;
+            --color-border: #E0E0E0;
+            --color-highlight-orange: #E67E22; /* 重要提醒 */
+            --color-highlight-blue: #3498DB; /* 連結 */
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'M PLUS Rounded 1c', sans-serif;
+            background-color: var(--color-primary-bg);
+            color: var(--color-primary-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overscroll-behavior-y: none; /* 防止手機瀏覽器橡皮筋效果 */
+        }
+
+        .font-jp {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+
+        .tab-button.active {
+            color: var(--color-accent-green);
+            border-bottom: 3px solid var(--color-accent-green);
+        }
+
+        .card {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* shadow-md */
+            border: 1px solid var(--color-border);
+        }
+
+        .input-style {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-card-bg);
+            color: var(--color-primary-text);
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-style:focus {
+            border-color: var(--color-accent-green);
+        }
+        .btn-primary {
+            background-color: var(--color-accent-green);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-lg */
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #6a8b8a; /* 略深一點的綠 */
+        }
+        .btn-secondary {
+            background-color: var(--color-accent-brown);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #b09a83; /* 略深一點的棕 */
+        }
+        .highlight-orange {
+            background-color: #FEF3C7; /* bg-amber-100 */
+            color: #D97706; /* text-amber-700 */
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        .link-button {
+            background-color: var(--color-highlight-blue);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .link-button:hover {
+            background-color: #2b7bb9;
+        }
+        .badge-food { background-color: #FEE2E2; color: #DC2626; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500; }
+        .badge-buy { background-color: #DBEAFE; color: #2563EB; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500; }
+        .badge-tip { background-color: #ECFDF5; color: #059669; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500; }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 767px) {
+            .tab-button {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .tab-button i {
+                margin-bottom: 0.25rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .text-xl { font-size: 1.25rem; }
+            .text-lg { font-size: 1.125rem; }
+            .text-base { font-size: 1rem; }
+            .text-sm { font-size: 0.875rem; }
+            .text-xs { font-size: 0.75rem; }
+        }
+
+        /* Safe area for iPhone notch */
+        body {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bottom-nav {
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        }
+
+        /* TimeLine Style */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--color-card-bg);
+            border: 3px solid var(--color-accent-green);
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 6px;
+            top: 20px;
+            bottom: -20px;
+            width: 2px;
+            background-color: var(--color-border);
+        }
+
+        .timeline-end .timeline-line {
+            display: none;
+        }
+
+        .timeline-important .timeline-dot {
+            background-color: var(--color-highlight-orange);
+            border-color: var(--color-highlight-orange);
+            transform: scale(1.2);
+        }
+        .timeline-important .timeline-line {
+            background-color: var(--color-highlight-orange);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-20 shadow-sm border-b border-border py-4 px-4">
+        <h1 class="text-xl font-bold text-center text-accent-green">新潟旅程</h1>
+        <p class="text-center text-sm text-gray-500 mt-1">日系極簡旅遊小工具</p>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 max-w-2xl mx-auto w-full mb-20">
+        
+        <section id="plan" class="tab-content active">
+            <h2 class="text-xl font-bold mb-6 text-accent-green">✈️ 行程表 (PLAN)</h2>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-plane mr-2"></i>航班資訊</h3>
+                <div class="space-y-2 text-sm">
+                    <p><strong>去程：</strong><span class="font-jp text-base">IT228</span> 台北 13:45 → 新潟 18:00</p>
+                    <p><strong>回程：</strong><span class="font-jp text-base">IT229</span> 新潟 18:50 → 台北 21:25</p>
+                </div>
+                <h3 class="text-lg font-bold mt-4 mb-3 text-accent-brown"><i class="fas fa-hotel mr-2"></i>住宿資訊</h3>
+                <div class="space-y-2 text-sm">
+                    <p><strong>飯店：</strong>新潟東急REI飯店</p>
+                    <p><strong>地址：</strong>2 Chome-1-1 Benten, Chuo Ward, Niigata, 950-0086, Japan</p>
+                </div>
+            </div>
+
+            <div id="itinerary-container">
+                </div>
+        </section>
+
+        <section id="guide" class="tab-content hidden">
+            <h2 class="text-xl font-bold mb-6 text-accent-green">🗺️ 深度導覽 (GUIDE)</h2>
+            <div id="guide-content">
+                </div>
+        </section>
+
+        <section id="wallet" class="tab-content hidden">
+            <h2 class="text-xl font-bold mb-6 text-accent-green">💰 記帳與匯率 (WALLET)</h2>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-coins mr-2"></i>匯率換算</h3>
+                <div class="flex items-center mb-3">
+                    <span class="mr-2 font-jp">1 TWD = </span>
+                    <input type="number" id="exchangeRateInput" value="4.8" class="input-style w-24 text-center text-accent-green font-jp font-bold" step="0.01">
+                    <span class="ml-2 font-jp"> JPY</span>
+                </div>
+                <input type="text" id="calcInput" class="input-style text-right text-lg font-jp mb-3" placeholder="輸入算式 (例如: 500+200*3)">
+                <div class="grid grid-cols-4 gap-2 mb-4">
+                    <button class="btn-primary" onclick="appendCalc('7')">7</button>
+                    <button class="btn-primary" onclick="appendCalc('8')">8</button>
+                    <button class="btn-primary" onclick="appendCalc('9')">9</button>
+                    <button class="btn-secondary" onclick="appendCalc('/')">/</button>
+                    <button class="btn-primary" onclick="appendCalc('4')">4</button>
+                    <button class="btn-primary" onclick="appendCalc('5')">5</button>
+                    <button class="btn-primary" onclick="appendCalc('6')">6</button>
+                    <button class="btn-secondary" onclick="appendCalc('*')">x</button>
+                    <button class="btn-primary" onclick="appendCalc('1')">1</button>
+                    <button class="btn-primary" onclick="appendCalc('2')">2</button>
+                    <button class="btn-primary" onclick="appendCalc('3')">3</button>
+                    <button class="btn-secondary" onclick="appendCalc('-')">-</button>
+                    <button class="btn-primary" onclick="appendCalc('0')">0</button>
+                    <button class="btn-secondary" onclick="appendCalc('.')">.</button>
+                    <button class="btn-secondary" onclick="clearCalc()">C</button>
+                    <button class="btn-secondary" onclick="appendCalc('+')">+</button>
+                    <button class="col-span-4 btn-primary" onclick="calculateExchange()">= 換算</button>
+                </div>
+                <div class="text-right text-lg font-bold">
+                    <p>日幣總額: <span id="totalJPY" class="text-accent-green font-jp">0</span> JPY</p>
+                    <p>台幣總額: <span id="totalTWD" class="text-accent-brown font-jp">0</span> TWD</p>
+                </div>
+            </div>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-clipboard-list mr-2"></i>記帳功能</h3>
+                <div class="mb-4 space-y-3">
+                    <input type="text" id="expenseItem" class="input-style" placeholder="品項 (例如: 午餐)">
+                    <input type="number" id="expenseJPY" class="input-style font-jp" placeholder="日幣金額 (例如: 1500)" step="1" min="0">
+                    <input type="file" id="expensePhoto" accept="image/*" class="hidden" onchange="previewExpensePhoto(event)">
+                    <button class="btn-secondary w-full flex items-center justify-center" onclick="document.getElementById('expensePhoto').click()">
+                        <i class="fas fa-camera mr-2"></i> 上傳照片
+                    </button>
+                    <div id="photoPreviewContainer" class="mt-2 text-center hidden">
+                        <img id="expensePhotoPreview" class="max-w-full h-24 object-contain mx-auto border border-border rounded-md">
+                        <button onclick="removeExpensePhoto()" class="text-red-500 text-sm mt-1"><i class="fas fa-times-circle mr-1"></i>移除照片</button>
+                    </div>
+                    <button class="btn-primary w-full mt-3" onclick="addExpense()">
+                        <i class="fas fa-plus-circle mr-2"></i>新增記帳
+                    </button>
+                </div>
+
+                <div class="border-t border-border mt-6 pt-4">
+                    <h4 class="font-bold mb-2">記帳歷史</h4>
+                    <ul id="expenseList" class="space-y-3">
+                        </ul>
+                    <div class="text-right mt-4 pt-3 border-t border-border">
+                        <p class="text-lg font-bold">總支出：<span id="totalExpensesJPY" class="text-accent-green font-jp">0</span> JPY / <span id="totalExpensesTWD" class="text-accent-brown font-jp">0</span> TWD</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lists" class="tab-content hidden">
+            <h2 class="text-xl font-bold mb-6 text-accent-green">📝 清單 (LISTS)</h2>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-list-check mr-2"></i>行前準備 CheckList</h3>
+                <ul id="checklist" class="space-y-2">
+                    </ul>
+                <div class="mt-4 flex space-x-2">
+                    <input type="text" id="newChecklistItem" class="input-style flex-grow" placeholder="新增準備項目">
+                    <button class="btn-primary px-3" onclick="addChecklistItem()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-note-sticky mr-2"></i>個人備忘錄</h3>
+                <textarea id="personalNotes" class="input-style min-h-[120px] mb-3" placeholder="在此輸入您的筆記，網址會自動轉換為連結..."></textarea>
+                <div id="notesOutput" class="space-y-2 text-sm">
+                    </div>
+                <button class="btn-primary w-full mt-3" onclick="saveNotes()">
+                    <i class="fas fa-save mr-2"></i>儲存備忘錄
+                </button>
+            </div>
+        </section>
+
+        <section id="info" class="tab-content hidden">
+            <h2 class="text-xl font-bold mb-6 text-accent-green">ℹ️ 資訊 (INFO)</h2>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-cloud-sun mr-2"></i>當地天氣預報</h3>
+                <p class="text-sm mb-3">請點擊連結查看新潟的即時天氣資訊。</p>
+                <a href="http://googleusercontent.com/jma.go.jp/jma/indexe.html" target="_blank" class="link-button">
+                    <i class="fas fa-external-link-alt mr-2"></i> 日本氣象廳
+                </a>
+            </div>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-phone-volume mr-2"></i>緊急聯絡電話</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><strong class="text-accent-green">警察：</strong><a href="tel:110" class="text-blue-600 hover:underline">110</a></li>
+                    <li><strong class="text-accent-green">救護車/消防：</strong><a href="tel:119" class="text-blue-600 hover:underline">119</a></li>
+                    <li><strong class="text-accent-green">台北駐日經濟文化代表處：</strong><a href="tel:+81-3-3280-7917" class="text-blue-600 hover:underline">+81-3-3280-7917</a></li>
+                    <li><strong class="text-accent-green">飯店：</strong><a href="tel:+81252410109" class="text-blue-600 hover:underline">+81 25-241-0109</a> (新潟東急REI飯店)</li>
+                </ul>
+            </div>
+
+            <div class="card p-4 mb-6">
+                <h3 class="text-lg font-bold mb-3 text-accent-brown"><i class="fas fa-exclamation-triangle mr-2"></i>旅遊注意事項</h3>
+                <ul class="list-disc list-inside space-y-2 text-sm">
+                    <li><strong class="text-accent-green">藥品攜帶：</strong>請注意日本對藥品攜帶規定嚴格，某些成分可能需要申請。</li>
+                    <li><strong class="text-accent-green">現金與支付：</strong>雖然電子支付普及，但仍有許多小店僅收現金，建議備足日幣。</li>
+                    <li><strong class="text-accent-green">垃圾分類：</strong>日本垃圾分類非常細緻，請務必遵守當地規定。</li>
+                    <li><strong class="text-accent-green">公共場所禮儀：</strong>在大眾運輸工具上請保持安靜，避免大聲喧嘩。</li>
+                    <li><strong class="text-accent-green">出入境違禁品：</strong>肉類製品、動植物產品等嚴禁攜帶入境，請務必檢查。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-border py-3 px-2 flex justify-around z-50">
+        <button class="tab-button flex flex-col items-center text-gray-500 flex-1 active" onclick="showTab('plan')">
+            <i class="fas fa-map-marked-alt text-lg mb-1"></i>
+            <span class="text-xs">行程</span>
+        </button>
+        <button class="tab-button flex flex-col items-center text-gray-500 flex-1" onclick="showTab('guide')">
+            <i class="fas fa-book-open text-lg mb-1"></i>
+            <span class="text-xs">導覽</span>
+        </button>
+        <button class="tab-button flex flex-col items-center text-gray-500 flex-1" onclick="showTab('wallet')">
+            <i class="fas fa-wallet text-lg mb-1"></i>
+            <span class="text-xs">記帳</span>
+        </button>
+        <button class="tab-button flex flex-col items-center text-gray-500 flex-1" onclick="showTab('lists')">
+            <i class="fas fa-list-ul text-lg mb-1"></i>
+            <span class="text-xs">清單</span>
+        </button>
+        <button class="tab-button flex flex-col items-center text-gray-500 flex-1" onclick="showTab('info')">
+            <i class="fas fa-info-circle text-lg mb-1"></i>
+            <span class="text-xs">資訊</span>
+        </button>
+    </nav>
+
+    <script>
+        // =======================================================
+        // Global Data (行程資訊)
+        // =======================================================
+        const itineraryData = [
+            {
+                day: 1,
+                date: 'Day 1',
+                title: '抵達新潟與信濃川夜景',
+                weather: { temp: '18°C', desc: '傍晚小雨' }, // 模擬天氣
+                events: [
+                    { time: '18:00', type: 'transport', title: '抵達KIJ新潟機場', details: 'IT228航班，台北13:45起飛，預計18:00抵達新潟。', icon: 'fa-plane', important: true },
+                    { time: '18:00 - 19:00', type: 'transport', title: '機場巴士至新潟站', details: '從機場搭乘巴士前往新潟站，這是全程唯一需要搭乘巴士的區段。', icon: 'fa-bus' },
+                    { time: '19:00', type: 'hotel', title: '辦理入住手續', details: '抵達新潟站後，至新潟東急REI飯店辦理入住。', icon: 'fa-hotel' },
+                    { time: '19:30 - 21:30', type: 'food', title: '新潟站周邊晚餐', details: '推薦享用當地美食。', highlight: ['必吃: へぎそば', '必吃: 新鮮壽司/海鮮丼'], links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/0'}]},
+                    { time: '餐後', type: 'spot', title: '萬代橋夜景散策', details: '步行至萬代橋欣賞信濃川的迷人夜景。', icon: 'fa-bridge', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/1'}]}
+                ]
+            },
+            {
+                day: 2,
+                date: 'Day 2',
+                title: '深度步行：清酒、文創與城市綠意',
+                weather: { temp: '22°C', desc: '晴時多雲' },
+                events: [
+                    { time: '09:30 - 10:30', type: 'spot', title: 'Ponshukan 驛店 (清酒試飲)', details: '新潟站內清酒博物館，必做是投幣試飲清酒。', highlight: ['必做: 投幣試飲清酒', '必買: 新潟銘酒'], icon: 'fa-wine-glass', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/2'}]},
+                    { time: '10:30 - 13:40', type: 'spot', title: '沼垂露臺商店街 (午餐/文創)', details: '步行約25-30分鐘 (2.0 km)，享受午餐與文創散策。', highlight: ['必吃: 當地特色午餐', '必買: 文創雜貨'], icon: 'fa-store', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/3'}]},
+                    { time: '13:40 - 15:10', type: 'spot', title: '白山神社與白山公園', details: '步行約35-40分鐘 (2.5 km)，感受日系初秋的莊嚴與城市綠意。', icon: 'fa-shrine', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/4'}]},
+                    { time: '16:00 - 17:30', type: 'spot', title: '新潟日報傳媒大廈 (Media Ship)', details: '步行約15-20分鐘 (1.2 km)，免費觀景台是觀賞日落和信濃川美景的絕佳地點。', highlight: ['必看: 信濃川日落', '必看: 佐渡島剪影'], icon: 'fa-building', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/5'}]},
+                    { time: '17:30 - 21:00', type: 'food', title: '萬代City 購物與晚餐', details: '步行可達的購物中心區域。', icon: 'fa-shopping-bag' }
+                ]
+            },
+            {
+                day: 3,
+                date: 'Day 3',
+                title: '鐵道之旅：彌彥與護國神社',
+                weather: { temp: '20°C', desc: '陰天' },
+                events: [
+                    { time: '07:30', type: 'transport', title: 'JR越後線至吉田站轉乘', details: '從新潟站搭乘JR越後線。', important: true, icon: 'fa-train' },
+                    { time: '約08:20', type: 'transport', title: '吉田站轉乘JR彌彥線', details: '關鍵轉乘點！注意月台標示換乘「JR彌彥線」，單程總車程約70分鐘。', important: true, icon: 'fa-exchange-alt' },
+                    { time: '08:40 - 12:00', type: 'spot', title: '彌彥神社區域散策', details: '參觀越後國一之宮，逛老街並可搭纜車上山。', highlight: ['必做: 搭纜車上彌彥山', '必吃: 彌彥溫泉饅頭/熊貓燒'], icon: 'fa-shrine', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/6'}]},
+                    { time: '約 12:00', type: 'transport', title: '返回新潟站 (午餐)', details: '搭乘JR循原路返回新潟，並享用午餐。', icon: 'fa-train' },
+                    { time: '13:30 - 14:00', type: 'transport', title: 'JR越後線至白山站', details: '從新潟站搭乘JR越後線短途移動（約5分鐘）至白山站。', icon: 'fa-train' },
+                    { time: '14:30 - 17:00', type: 'spot', title: '新潟縣護國神社', details: '從白山站步行約25分鐘 (1.8 km) 前往。', icon: 'fa-shrine', links: [{text: 'Google Maps', url: 'https://maps.app.goo.gl/7'}]},
+                    { time: '18:30', type: 'food', title: '新潟站周邊晚餐', details: '在新潟站周邊享用晚餐。', icon: 'fa-utensils' }
+                ]
+            },
+            {
+                day: 4,
+                date: 'Day 4',
+                title: '購物衝刺與返程',
+                weather: { temp: '21°C', desc: '多雲時晴' },
+                events: [
+                    { time: '09:30 - 12:00', type: 'shopping', title: 'CoCoLo Niigata 購物衝刺', details: '地點鎖定在新潟站內的購物商場。', highlight: ['必買: 清酒', '必買: 新潟米', '必買: 米菓仙貝', '必買: 笹糰子'], icon: 'fa-shopping-basket' },
+                    { time: '12:00 - 14:00', type: 'food', title: '最後午餐', details: '享受離開前的美食。', highlight: ['推薦: 巴士中心咖哩', '推薦: 海鮮丼'], icon: 'fa-utensils' },
+                    { time: '15:30 - 16:00', type: 'transport', title: '前往新潟機場', details: '搭乘機場巴士或計程車前往新潟機場。', important: true, icon: 'fa-bus' },
+                    { time: '18:50', type: 'transport', title: '搭乘班機返程', details: 'IT229航班，預計21:25抵達台北。', icon: 'fa-plane', important: true }
+                ]
+            }
+        ];
+
+        const guideData = [
+            {
+                title: '清酒之魂：Ponshukan 驛店',
+                subtitle: '新潟米的精華體驗',
+                icon: 'fa-wine-glass',
+                content: `
+                    <p class="mb-3">新潟是日本首屈一指的「清酒王國」，擁有超過90家酒藏，得益於優質的越光米和純淨的融雪水。Ponshukan（ぽんしゅ館）位於新潟站內，是清酒愛好者的天堂。</p>
+                    <p class="text-sm font-bold text-accent-green mb-2">【必做體驗】</p>
+                    <p class="mb-3">只需支付500日圓，即可獲得5枚代幣和小酒杯，可以從近100種清酒中選擇試飲。請務必試試當地知名的「越乃寒梅」、「久保田」或「八海山」。</p>
+                    <p class="text-sm font-bold text-accent-green mb-2">【隱藏美食】</p>
+                    <p class="mb-3">館內還有販售名為「爆彈飯糰」的巨無霸飯糰，使用新潟米製作，是解酒又飽足的在地特色美食。</p>
+                `,
+                map: null
+            },
+            {
+                title: '信仰與歷史：彌彥神社',
+                subtitle: '越後國一之宮',
+                icon: 'fa-shrine',
+                content: `
+                    <p class="mb-3">彌彥神社（彌彥大社）是新潟縣內最著名的神社，也是「越後國一之宮」，地位崇高。據說已有兩千年歷史，主要祭祀的是天香山命，被尊為開發越後平原的祖神。</p>
+                    <p class="text-sm font-bold text-accent-green mb-2">【重點攻略】</p>
+                    <ul class="list-disc list-inside ml-2 text-sm space-y-1">
+                        <li><strong>二之鳥居：</strong>被視為能量特別強大的入口。</li>
+                        <li><strong>玉之橋：</strong>只有神明才能通行的橋，遊客只能在旁側觀賞。</li>
+                        <li><strong>彌彥山纜車：</strong>從神社老街可搭乘接駁車或直接前往纜車站，登頂後可俯瞰越後平原、日本海及佐渡島。</li>
+                    </ul>
+                `,
+                map: `<iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=138.8340%2C37.8250%2C138.8600%2C37.8420&amp;layer=mapnik&amp;marker=37.8340%2C138.8470" style="border: 1px solid black;"></iframe>`
+            },
+            {
+                title: 'B級美食傳說：巴士中心咖哩',
+                subtitle: '萬代City的懷舊滋味',
+                icon: 'fa-utensils',
+                content: `
+                    <p class="mb-3">位於萬代City巴士總站二樓的「名物 巴士中心咖哩」（バスセンターのカレー），是新潟市民心中最具代表性的B級美食，也是旅人離開前的必吃項目之一。</p>
+                    <p class="text-sm font-bold text-accent-green mb-2">【特色】</p>
+                    <p class="mb-3">咖哩顏色呈現懷舊的**黃色**，口感濃稠，口味帶著蔬菜的甜味與微辣感。許多人排隊就是為了這一口傳承數十年的古早味。排隊人潮多，建議避開午餐尖峰時段。</p>
+                    <p class="text-sm font-bold text-accent-green mb-2">【位置】</p>
+                    <p class="mb-3">位於萬代City的巴士總站二樓角落，容易被觀光客忽略，但跟著排隊人龍走就對了！</p>
+                `,
+                map: null
+            }
+        ];
+
+        const initialChecklist = [
+            '護照/簽證',
+            '網卡/eSIM',
+            '日幣現金',
+            '國際信用卡',
+            '充電線/行動電源',
+            '個人藥品/常備藥',
+            '雨具 (雨傘/雨衣)',
+            '輕便外套/防風衣',
+            '飯店預約單電子檔'
+        ];
+
+        // =======================================================
+        // LocalStorage & Initial Load
+        // =======================================================
+        
+        let currentExpensePhotoBase64 = null;
+        const DEFAULT_EXCHANGE_RATE = 4.8; 
+
+        function initApp() {
+            loadExpenses();
+            loadChecklist();
+            loadNotes();
+            renderItinerary();
+            renderGuides();
+            document.getElementById('exchangeRateInput').value = localStorage.getItem('exchangeRate') || DEFAULT_EXCHANGE_RATE;
+        }
+
+        // =======================================================
+        // UI Navigation
+        // =======================================================
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+
+            // 確保記帳頁面重新渲染總額
+            if (tabId === 'wallet') {
+                calculateTotalExpenses();
+            }
+            // 確保備忘錄更新顯示
+            if (tabId === 'lists') {
+                loadNotes();
+            }
+        }
+
+        // =======================================================
+        // PLAN (行程表) Logic
+        // =======================================================
+
+        function renderItinerary() {
+            const container = document.getElementById('itinerary-container');
+            container.innerHTML = itineraryData.map((dayData, dayIndex) => `
+                <div class="mb-8">
+                    <div class="flex items-center mb-4">
+                        <span class="text-lg font-bold text-accent-green mr-3">${dayData.date}</span>
+                        <h3 class="text-xl font-bold">${dayData.title}</h3>
+                        <span class="ml-auto text-sm text-gray-500"><i class="fas fa-cloud mr-1"></i>${dayData.weather.temp}</span>
+                    </div>
+                    <div class="relative pl-4">
+                        ${dayData.events.map((event, eventIndex) => `
+                            <div class="timeline-item ${event.important ? 'timeline-important' : ''} ${eventIndex === dayData.events.length - 1 ? 'timeline-end' : ''}">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-line"></div>
+                                <div class="card p-4 ml-4">
+                                    <div class="flex items-center mb-1">
+                                        <i class="fas ${event.icon} mr-2 text-accent-green"></i>
+                                        <span class="text-sm font-jp font-bold ${event.important ? 'highlight-orange' : 'text-accent-brown'}">${event.time}</span>
+                                    </div>
+                                    <h4 class="text-lg font-bold mb-2">${event.title}</h4>
+                                    <p class="text-sm text-gray-700">${event.details}</p>
+                                    ${event.highlight ? `<div class="mt-2 flex flex-wrap gap-2">${event.highlight.map(h => `<span class="${h.includes('吃') ? 'badge-food' : (h.includes('買') ? 'badge-buy' : 'badge-tip')}">${h}</span>`).join('')}</div>` : ''}
+                                    ${event.links ? `<div class="mt-3 flex gap-2">${event.links.map(link => `<a href="${link.url}" target="_blank" class="link-button"><i class="fas fa-map-marker-alt mr-2"></i>${link.text}</a>`).join('')}</div>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =======================================================
+        // GUIDE (深度導覽) Logic
+        // =======================================================
+        function renderGuides() {
+            const container = document.getElementById('guide-content');
+            container.innerHTML = guideData.map(guide => `
+                <div class="card p-5 mb-6">
+                    <h3 class="text-xl font-bold mb-1 text-accent-green"><i class="fas ${guide.icon} mr-2"></i>${guide.title}</h3>
+                    <p class="text-sm text-accent-brown font-medium mb-4">${guide.subtitle}</p>
+                    <div class="text-base leading-relaxed">${guide.content}</div>
+                    ${guide.map ? `<div class="mt-4 border border-border rounded-lg overflow-hidden">${guide.map}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // =======================================================
+        // WALLET (記帳與匯率) Logic
+        // =======================================================
+        
+        let currentPhotoBase64 = null; // Used for temporary storage during expense entry
+
+        function appendCalc(value) {
+            const input = document.getElementById('calcInput');
+            if (value === 'x') value = '*'; // Convert display to actual operator
+            input.value += value;
+        }
+
+        function clearCalc() {
+            document.getElementById('calcInput').value = '';
+            document.getElementById('totalJPY').textContent = '0';
+            document.getElementById('totalTWD').textContent = '0';
+        }
+
+        function calculateExchange() {
+            const expression = document.getElementById('calcInput').value.replace(/x/g, '*');
+            const rate = parseFloat(document.getElementById('exchangeRateInput').value) || DEFAULT_EXCHANGE_RATE;
+            localStorage.setItem('exchangeRate', rate);
+
+            try {
+                // Safely evaluate the expression
+                const jpyTotal = eval(expression) || 0;
+                const twdTotal = (jpyTotal / rate).toFixed(0); // Round to nearest TWD
+
+                document.getElementById('totalJPY').textContent = jpyTotal.toLocaleString('en');
+                document.getElementById('totalTWD').textContent = twdTotal.toLocaleString('en');
+            } catch (e) {
+                alert('無效的算式！');
+                document.getElementById('totalJPY').textContent = 'Error';
+                document.getElementById('totalTWD').textContent = 'Error';
+            }
+        }
+
+        function getExpenses() {
+            const expenses = localStorage.getItem('expenses');
+            return expenses ? JSON.parse(expenses) : [];
+        }
+
+        function saveExpenses(expenses) {
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+        }
+
+        function calculateTotalExpenses() {
+            const expenses = getExpenses();
+            const rate = parseFloat(localStorage.getItem('exchangeRate')) || DEFAULT_EXCHANGE_RATE;
+            
+            const totalJPY = expenses.reduce((sum, item) => sum + item.jpy, 0);
+            const totalTWD = (totalJPY / rate).toFixed(0);
+
+            document.getElementById('totalExpensesJPY').textContent = totalJPY.toLocaleString('en');
+            document.getElementById('totalExpensesTWD').textContent = totalTWD.toLocaleString('en');
+        }
+
+        function loadExpenses() {
+            const expenses = getExpenses();
+            const list = document.getElementById('expenseList');
+            const rate = parseFloat(localStorage.getItem('exchangeRate')) || DEFAULT_EXCHANGE_RATE;
+            
+            list.innerHTML = expenses.map((item, index) => {
+                const twdAmount = (item.jpy / rate).toFixed(0);
+                return `
+                    <li class="p-3 bg-gray-50 rounded-lg flex items-center justify-between border border-border">
+                        <div class="flex items-center flex-1 mr-3">
+                            ${item.photo ? `<img src="${item.photo}" class="w-12 h-12 object-cover mr-3 rounded-md" alt="收據縮圖">` : ''}
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-base whitespace-nowrap overflow-hidden text-ellipsis">${item.item}</p>
+                                <p class="text-xs text-accent-green font-jp">${item.jpy.toLocaleString('en')} JPY</p>
+                                <p class="text-xs text-accent-brown font-jp">約 ${twdAmount.toLocaleString('en')} TWD</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteExpense(${index})" class="text-red-500 text-sm ml-2 p-1"><i class="fas fa-trash-alt"></i></button>
+                    </li>
+                `;
+            }).join('');
+
+            calculateTotalExpenses();
+        }
+
+        function deleteExpense(index) {
+            if (!confirm('確定要刪除這筆記帳嗎？')) return;
+            const expenses = getExpenses();
+            expenses.splice(index, 1);
+            saveExpenses(expenses);
+            loadExpenses();
+        }
+
+        function previewExpensePhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800; // Max width for image compression
+                    
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > MAX_WIDTH) {
+                        height = height * (MAX_WIDTH / width);
+                        width = MAX_WIDTH;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Compress to JPEG and store base64
+                    currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.8); // 80% quality
+                    
+                    document.getElementById('expensePhotoPreview').src = currentPhotoBase64;
+                    document.getElementById('photoPreviewContainer').classList.remove('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeExpensePhoto() {
+            currentPhotoBase64 = null;
+            document.getElementById('expensePhoto').value = '';
+            document.getElementById('photoPreviewContainer').classList.add('hidden');
+            document.getElementById('expensePhotoPreview').src = '';
+        }
+
+        function addExpense() {
+            const item = document.getElementById('expenseItem').value.trim();
+            const jpy = parseInt(document.getElementById('expenseJPY').value) || 0;
+
+            if (!item || jpy <= 0) {
+                alert('請輸入有效的品項和日幣金額。');
+                return;
+            }
+
+            const expenses = getExpenses();
+            expenses.unshift({
+                item: item,
+                jpy: jpy,
+                photo: currentPhotoBase64,
+                timestamp: Date.now()
+            });
+            saveExpenses(expenses);
+
+            // Reset form
+            document.getElementById('expenseItem').value = '';
+            document.getElementById('expenseJPY').value = '';
+            removeExpensePhoto(); // Also resets currentPhotoBase64
+
+            loadExpenses();
+        }
+
+
+        // =======================================================
+        // LISTS (清單) Logic
+        // =======================================================
+        
+        function getChecklist() {
+            const checklist = localStorage.getItem('checklist');
+            return checklist ? JSON.parse(checklist) : initialChecklist.map(item => ({ text: item, completed: false }));
+        }
+
+        function saveChecklist(checklist) {
+            localStorage.setItem('checklist', JSON.stringify(checklist));
+        }
+
+        function loadChecklist() {
+            let checklist = getChecklist();
+            if (checklist.length === 0) {
+                // 如果是第一次載入，使用初始清單
+                checklist = initialChecklist.map(item => ({ text: item, completed: false }));
+                saveChecklist(checklist);
+            }
+            
+            const list = document.getElementById('checklist');
+            list.innerHTML = checklist.map((item, index) => `
+                <li class="flex items-center bg-gray-50 p-2 rounded-md border border-border transition duration-150 ease-in-out hover:bg-gray-100">
+                    <input type="checkbox" id="check-${index}" class="form-checkbox h-5 w-5 text-accent-green rounded border-gray-300 focus:ring-accent-green" ${item.completed ? 'checked' : ''} onclick="toggleChecklistItem(${index})">
+                    <label for="check-${index}" class="ml-3 text-base flex-1 ${item.completed ? 'line-through text-gray-500' : 'text-primary-text'}">${item.text}</label>
+                    <button onclick="deleteChecklistItem(${index})" class="text-red-400 hover:text-red-600 ml-2"><i class="fas fa-trash-alt text-sm"></i></button>
+                </li>
+            `).join('');
+        }
+
+        function toggleChecklistItem(index) {
+            const checklist = getChecklist();
+            checklist[index].completed = !checklist[index].completed;
+            saveChecklist(checklist);
+            loadChecklist(); // Rerender to apply line-through style
+        }
+
+        function deleteChecklistItem(index) {
+            if (!confirm('確定要刪除此清單項目嗎？')) return;
+            const checklist = getChecklist();
+            checklist.splice(index, 1);
+            saveChecklist(checklist);
+            loadChecklist();
+        }
+
+        function addChecklistItem() {
+            const input = document.getElementById('newChecklistItem');
+            const text = input.value.trim();
+            if (text) {
+                const checklist = getChecklist();
+                checklist.push({ text: text, completed: false });
+                saveChecklist(checklist);
+                input.value = '';
+                loadChecklist();
+            }
+        }
+
+        function saveNotes() {
+            const notesText = document.getElementById('personalNotes').value;
+            localStorage.setItem('personalNotes', notesText);
+            alert('備忘錄已儲存！');
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const notesText = localStorage.getItem('personalNotes') || '';
+            document.getElementById('personalNotes').value = notesText;
+            
+            const outputDiv = document.getElementById('notesOutput');
+            
+            // 處理換行
+            let htmlContent = notesText.split('\n').map(line => {
+                // 偵測網址並轉換為按鈕
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                if (urlRegex.test(line)) {
+                    // 找到所有連結
+                    const links = line.match(urlRegex);
+                    // 將連結替換為按鈕
+                    let lineHtml = line;
+                    links.forEach(url => {
+                        const buttonHtml = `<a href="${url}" target="_blank" class="link-button bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm"><i class="fas fa-link mr-1"></i>${url.length > 30 ? url.substring(0, 30) + '...' : url}</a>`;
+                        lineHtml = lineHtml.replace(url, buttonHtml);
+                    });
+                    return `<p class="mb-2">${lineHtml}</p>`;
+                }
+                return `<p class="mb-2 text-gray-700">${line || '&nbsp;'}</p>`;
+            }).join('');
+
+            outputDiv.innerHTML = htmlContent;
+        }
+
+        // =======================================================
+        // Initialize Application
+        // =======================================================
+        window.onload = initApp;
+    </script>
+</body>
+</html>
